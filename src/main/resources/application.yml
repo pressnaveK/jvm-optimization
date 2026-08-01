@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: jvm-optimization
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,threaddump,heapdump
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: jvm-optimization
+server:
+  tomcat:
+    threads:
+      max: 40
+      min-spare: 4
