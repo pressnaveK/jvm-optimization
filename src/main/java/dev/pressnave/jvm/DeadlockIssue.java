@@ -2,10 +2,10 @@ package dev.pressnave.jvm;
 import org.springframework.stereotype.Service;
 @Service
 public class DeadlockIssue {
- private final Object a=new Object(), b=new Object();
- public void reproduce() {
-  Thread.ofPlatform().daemon().name("deadlock-A").start(()->{synchronized(a){sleep();synchronized(b){}}});
-  Thread.ofPlatform().daemon().name("deadlock-B").start(()->{synchronized(b){sleep();synchronized(a){}}});
+ private final Object a=new Object(),b=new Object();
+ public void reproduce(){
+  runOrdered("ordered-A");
+  runOrdered("ordered-B");
  }
- private static void sleep(){try{Thread.sleep(200);}catch(InterruptedException e){Thread.currentThread().interrupt();}}
+ private void runOrdered(String name){Thread.ofPlatform().daemon().name(name).start(()->{synchronized(a){synchronized(b){/* consistent order */}}});}
 }
