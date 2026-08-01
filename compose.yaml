@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    ports: ["8080:8080"]
+    mem_limit: 768m
+    cpus: 2
+    volumes: ["./diagnostics:/app/diagnostics"]
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    ports: ["9090:9090"]
+    volumes: ["./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro"]
+  grafana:
+    image: grafana/grafana:12.1.0
+    ports: ["3000:3000"]
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
