@@ -4,7 +4,7 @@ COPY pom.xml .
 RUN mvn -q -DskipTests dependency:go-offline
 COPY src src
 RUN mvn -q package
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:21-jdk
 WORKDIR /app
 RUN mkdir -p /app/diagnostics
 COPY --from=build /src/target/jvm-optimization-1.0.0.jar app.jar
